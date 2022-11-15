@@ -70,14 +70,34 @@ describe('Testes de unidade de "productService"', function () {
   })
 
   describe('Função: "addProduct"', function () {
-    it('Verifica se retorna "null" e "novo produto"', async function () {
-      sinon.stub(productModel, 'insert').resolves(42);
-
+    it('Verifica o cadastro de um produto com valor válido', async function () {
       const newProductMock = { id: 42, ...product };
+
+      sinon.stub(productModel, 'insert').resolves(42);
+      sinon.stub(productModel, 'selectById').resolves(newProductMock);
+
       const result = await productService.addProduct(product);
 
       expect(result.type).to.equal(null);
       expect(result.result).to.deep.equal(newProductMock);
+    });
+
+    it('Verifica se retorna um erro ao passar o "name" com menos de 5 caracteres', async function () {
+      const producInvalid = { name: 'a' };
+
+      const result = await productService.addProduct(producInvalid);
+
+      expect(result.type).to.equal('UNPROCESSABLE_ENTITY');
+      expect(result.result).to.deep.equal('"name" length must be at least 5 characters long');
+    });
+
+    it('Verifica se retorna um erro ao passar um produto inválido', async function () {
+      const producInvalid = {};
+
+      const result = await productService.addProduct(producInvalid);
+
+      expect(result.type).to.equal('INVALID_VALUE');
+      expect(result.result).to.deep.equal('"name" is required');
     });
   });
 

@@ -18,13 +18,32 @@
     "colId": "85ecede5-dc37-487b-beb8-a25e549a8ddc",
     "containerId": "e7ddb8bd-28fe-4fd6-acf6-aecb46999d23",
     "name": "List by Id",
-    "url": "http://localhost:3000/products/999",
+    "url": "http://localhost:3000/products/1",
     "method": "GET",
     "sortNum": 20000,
     "created": "2022-11-14T11:43:32.466Z",
-    "modified": "2022-11-14T13:36:13.476Z",
+    "modified": "2022-11-15T12:25:29.615Z",
     "headers": [],
     "params": [],
+    "tests": []
+  },
+  {
+    "_id": "46a5d49a-8a8a-4600-94fa-6380668621a9",
+    "colId": "85ecede5-dc37-487b-beb8-a25e549a8ddc",
+    "containerId": "e7ddb8bd-28fe-4fd6-acf6-aecb46999d23",
+    "name": "Create /products",
+    "url": "http://localhost:3000/products",
+    "method": "POST",
+    "sortNum": 30000,
+    "created": "2022-11-15T12:24:04.818Z",
+    "modified": "2022-11-15T13:50:26.598Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"name\": \"a\"\n}",
+      "form": []
+    },
     "tests": []
   }
 ]

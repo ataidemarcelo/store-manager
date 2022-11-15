@@ -1,5 +1,5 @@
 const { productModel } = require('../models');
-const { validateId } = require('./validations/validationsInputValues');
+const { validateId, validateNewProduct } = require('./validations/validationsInputValues');
 
 const findAll = async () => {
   const products = await productModel.selectAll();
@@ -26,9 +26,11 @@ const findById = async (id) => {
 };
 
 const addProduct = async (product) => {
-  const insertId = await productModel.insert(product);
+  const error = validateNewProduct(product);
+  if (error.type) return error;
 
-  const newProduct = { id: insertId, ...product };
+  const insertId = await productModel.insert(product);
+  const newProduct = await productModel.selectById(insertId);
 
   return { type: null, result: newProduct };
 };

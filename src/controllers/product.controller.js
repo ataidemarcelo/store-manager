@@ -21,7 +21,9 @@ const getProduct = async (req, res) => {
 const createProduct = async (req, res) => {
   const product = req.body;
 
-  const { result } = await productService.addProduct(product);
+  const { type, result } = await productService.addProduct(product);
+
+  if (type) return res.status(errorMapper.mapper(type)).json({ message: result });
 
   res.status(201).json(result);
 };

@@ -121,6 +121,44 @@ describe('Testes de unidade do "productController"', function () {
       expect(res.status).to.have.been.calledWith(201);
       expect(res.json).to.have.been.calledWith(newProductMock);
     });
+
+    it('Verifica as funções internas em caso de erro sem "name"', async function () {
+      const res = {};
+      const req = {
+        body: {},
+      };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon
+        .stub(productService, 'addProduct')
+        .resolves({ type: 'INVALID_VALUE', result: 'error_message' });
+
+      await productController.createProduct(req, res);
+
+      expect(productService.addProduct).to.have.been.calledWith(req.body);
+      expect(res.status).to.have.been.calledWith(400);
+      expect(res.json).to.have.been.calledWith({ message: 'error_message' });
+    });
+
+    it('Verifica as funções internas em caso de erro: "name" com menos de 5 caracteres', async function () {
+      const res = {};
+      const req = {
+        body: { name: 'a' },
+      };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon
+        .stub(productService, 'addProduct')
+        .resolves({ type: 'UNPROCESSABLE_ENTITY', result: 'error_message' });
+
+      await productController.createProduct(req, res);
+
+      expect(productService.addProduct).to.have.been.calledWith(req.body);
+      expect(res.status).to.have.been.calledWith(422);
+      expect(res.json).to.have.been.calledWith({ message: 'error_message' });
+    });
   });
 
   afterEach(sinon.restore);
