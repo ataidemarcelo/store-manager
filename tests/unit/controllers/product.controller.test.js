@@ -5,7 +5,7 @@ const sinonChai = require('sinon-chai');
 const errorMapper = require('../../../src/utils/errorMapper');
 const { productService } = require('../../../src/services');
 const { productController } = require('../../../src/controllers');
-const { productList } = require('./mocks/product.controller.mock');
+const { productList, productBodyMock } = require('./mocks/product.controller.mock');
 
 chai.use(sinonChai);
 const { expect } = chai;
@@ -100,6 +100,28 @@ describe('Testes de unidade do "productController"', function () {
       expect(res.json).to.have.been.calledWith(findByIdResult.result);
     })
   })
+
+  describe('POST /products | "createProduct"', function () {
+    it('Verifica as funções internas e seus argumentos de "createProduct" em caso de sucesso', async function () {
+      const res = {};
+      const req = {
+        body: productBodyMock,
+      };
+      const newProductMock = { id: 1, ...productBodyMock };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon
+        .stub(productService, 'addProduct')
+        .resolves({ type: null, result: newProductMock });
+
+      await productController.createProduct(req, res);
+
+      expect(productService.addProduct).to.have.been.calledWith(req.body);
+      expect(res.status).to.have.been.calledWith(201);
+      expect(res.json).to.have.been.calledWith(newProductMock);
+    });
+  });
 
   afterEach(sinon.restore);
 });

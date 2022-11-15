@@ -4,7 +4,7 @@ const sinonChai = require('sinon-chai');
 
 const { productModel } = require('../../../src/models');
 const { productService } = require('../../../src/services');
-const { emptyList, allProducts, invalidValue } = require('./mocks/product.service.mocks');
+const { emptyList, allProducts, invalidValue, product } = require('./mocks/product.service.mocks');
 
 const { expect } = chai;
 chai.use(sinonChai);
@@ -57,7 +57,7 @@ describe('Testes de unidade de "productService"', function () {
       expect(selectByIdSpy).to.have.been.calledWith(validId);
     });
 
-    it('Verifica se tem o retorno esperado', async function () {
+    it('Verifica se retorna "null" e o produto esperado', async function () {
       sinon.stub(productModel, 'selectById').resolves(allProducts[1]);
       const expectedResult = allProducts[1];
 
@@ -68,6 +68,18 @@ describe('Testes de unidade de "productService"', function () {
       expect(result.result).to.be.deep.equal(expectedResult);
     });
   })
+
+  describe('Função: "addProduct"', function () {
+    it('Verifica se retorna "null" e "novo produto"', async function () {
+      sinon.stub(productModel, 'insert').resolves(42);
+
+      const newProductMock = { id: 42, ...product };
+      const result = await productService.addProduct(product);
+
+      expect(result.type).to.equal(null);
+      expect(result.result).to.deep.equal(newProductMock);
+    });
+  });
 
   afterEach(sinon.restore);
 });

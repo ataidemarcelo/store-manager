@@ -9,6 +9,11 @@ const productList = [
   }
 ];
 
+const productBodyMock = {
+  name: 'any_product'
+};
+
 module.exports = {
-  productList
+  productList,
+  productBodyMock
 };

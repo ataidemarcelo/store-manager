@@ -9,6 +9,11 @@ const products = [
   }
 ];
 
+const newProduct = {
+  name: 'any_product'
+};
+
 module.exports = {
-  products
+  products,
+  newProduct,
 };

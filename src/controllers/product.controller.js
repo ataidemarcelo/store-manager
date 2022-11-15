@@ -18,7 +18,16 @@ const getProduct = async (req, res) => {
   res.status(200).json(result);
 };
 
+const createProduct = async (req, res) => {
+  const product = req.body;
+
+  const { result } = await productService.addProduct(product);
+
+  res.status(201).json(result);
+};
+
 module.exports = {
   listProducts,
   getProduct,
+  createProduct,
 };

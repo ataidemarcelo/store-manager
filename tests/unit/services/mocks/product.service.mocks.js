@@ -9,6 +9,10 @@ const allProducts = [
   }
 ];
 
+const product = {
+  name: 'any_name',
+};
+
 const emptyList = [];
 const invalidValue = 'a';
 
@@ -16,4 +20,5 @@ module.exports = {
   allProducts,
   emptyList,
   invalidValue,
+  product,
 };
