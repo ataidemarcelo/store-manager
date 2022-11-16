@@ -1,4 +1,4 @@
-const { idSchema, productSchema } = require('./schemas');
+const { idSchema, productSchema } = require('./schemasProducts');
 
 const validateId = (id) => {
   const { error } = idSchema.validate(id);
@@ -7,25 +7,21 @@ const validateId = (id) => {
   return { type: null, result: null };
 };
 
+const objectType = {
+  'any.required': 'INVALID_VALUE',
+  'string.min': 'UNPROCESSABLE_ENTITY',
+};
+
 const validateNewProduct = (product) => {
   const { error } = productSchema.validate(product);
 
   if (error) {
     const { details } = error;
     const { type, message } = details[0];
-    console.log(type);
 
-    if (type === 'any.required') {
-      return {
-        type: 'INVALID_VALUE', result: message,
-      };
-    }
-
-    if (type === 'string.min') {
-      return {
-        type: 'UNPROCESSABLE_ENTITY', result: message,
-      };
-    }
+    return {
+      type: objectType[type], result: message,
+    };
   }
 
   return { type: null, result: null };
