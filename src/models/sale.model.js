@@ -20,6 +20,16 @@ const selectById = async (id) => {
   return camelize(result);
 };
 
+const select = async (id) => {
+  const [result] = await connection.execute(
+    ` SELECT *
+      FROM StoreManager.sales
+      WHERE id = ?`,
+    [id],
+  );
+  return result;
+};
+
 const insertSaleProducts = async (saleId, sales) => {
   const [{ insertId }] = await connection.execute(
     'INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)',
@@ -66,7 +76,17 @@ const deleteSale = async (id) => {
   );
 
   return result;
- };
+};
+
+const updateSale = async (id, { quantity, productId }) => {
+  const [result] = await connection.execute(`
+    UPDATE StoreManager.sales_products
+    SET quantity = ?
+    WHERE product_id = ? AND sale_id = ?
+  `, [quantity, productId, id]);
+
+  return result;
+};
 
 module.exports = {
   insertSaleProducts,
@@ -75,4 +95,6 @@ module.exports = {
   selectAllSales,
   selectSaleById,
   deleteSale,
+  updateSale,
+  select,
 };
