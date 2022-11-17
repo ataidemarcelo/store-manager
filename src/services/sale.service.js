@@ -1,5 +1,6 @@
 const { saleModel } = require('../models');
 const { validateFields, validateProductExists } = require('./validations/validationsSales');
+const { validateId } = require('./validations/validationsProducts');
 
 const addSale = async (sales) => {
   let error = await validateFields(sales);
@@ -27,6 +28,32 @@ const addSale = async (sales) => {
   return { type: null, result: newSales };
 };
 
+const findAllSales = async () => {
+  const sales = await saleModel.selectAllSales();
+
+  if (sales.length === 0) {
+    return {
+      type: 'EMPTY_LIST',
+      result: 'There is no registered sale',
+    };
+  }
+
+  return { type: null, result: sales };
+};
+
+const findSaleById = async (id) => {
+  const error = validateId(id);
+  if (error.type) return error;
+
+  const sale = await saleModel.selectSaleById(id);
+
+  if (sale.length === 0) return { type: 'SALE_NOT_FOUND', result: 'Sale not found' };
+
+  return { type: null, result: sale };
+};
+
 module.exports = {
   addSale,
+  findAllSales,
+  findSaleById,
 };

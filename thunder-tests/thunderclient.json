@@ -17,7 +17,7 @@
     "_id": "cc388e82-6d3f-4317-8692-f20de0da38d7",
     "colId": "85ecede5-dc37-487b-beb8-a25e549a8ddc",
     "containerId": "e7ddb8bd-28fe-4fd6-acf6-aecb46999d23",
-    "name": "List by Id",
+    "name": "Get by Id",
     "url": "http://localhost:3000/products/1",
     "method": "GET",
     "sortNum": 20000,
@@ -63,6 +63,20 @@
       "raw": "[\n  {}\n]",
       "form": []
     },
+    "tests": []
+  },
+  {
+    "_id": "a586a66b-8aa9-4694-9a23-ec25d6937157",
+    "colId": "85ecede5-dc37-487b-beb8-a25e549a8ddc",
+    "containerId": "8d72013e-0d70-4c6c-9c93-b13826f6b5c7",
+    "name": "Get by id",
+    "url": "http://localhost:3000/sales/1",
+    "method": "GET",
+    "sortNum": 50000,
+    "created": "2022-11-17T13:38:05.388Z",
+    "modified": "2022-11-17T13:51:01.853Z",
+    "headers": [],
+    "params": [],
     "tests": []
   }
 ]

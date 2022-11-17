@@ -4,7 +4,13 @@ const sinonChai = require('sinon-chai');
 
 const connection = require('../../../src/models/connection');
 const { saleModel } = require('../../../src/models');
-const { sales, saleProduct, saleId } = require('./mocks/sale.model.mocks');
+const {
+  sales,
+  saleProduct,
+  saleId,
+  allSalesFromDb,
+  selectAllSalesResult,
+} = require('./mocks/sale.model.mocks');
 
 chai.use(sinonChai);
 const { expect } = chai;
@@ -61,6 +67,18 @@ describe('Testes de unidade do "saleModel"', function () {
       const expectedInsertId = 42;
 
       expect(result).to.be.equal(expectedInsertId);
+    });
+  });
+
+  describe('Função: "selectAllSales"', function () {
+    it('Verifica se o "connection.execute" é chamado uma vez, e se tem o retorno esperado', async function () {
+      sinon.stub(connection, 'execute').resolves([allSalesFromDb, []]);
+
+      const result = await saleModel.selectAllSales();
+
+      expect(connection.execute).to.have.been.calledOnce;
+      expect(result).to.be.deep.equal(selectAllSalesResult);
+      expect(result).to.be.deep.an('array');
     });
   });
 
