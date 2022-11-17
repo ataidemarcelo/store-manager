@@ -78,5 +78,24 @@
     "headers": [],
     "params": [],
     "tests": []
+  },
+  {
+    "_id": "30483199-6785-4096-a1de-c20ab9712bb3",
+    "colId": "85ecede5-dc37-487b-beb8-a25e549a8ddc",
+    "containerId": "e7ddb8bd-28fe-4fd6-acf6-aecb46999d23",
+    "name": "Update /products/:id",
+    "url": "http://localhost:3000/products/1",
+    "method": "PUT",
+    "sortNum": 40000,
+    "created": "2022-11-17T14:19:05.984Z",
+    "modified": "2022-11-17T14:58:02.547Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{}",
+      "form": []
+    },
+    "tests": []
   }
 ]
