@@ -12,6 +12,7 @@ const {
   newSalesQuantityInvalid,
   newSalesProductIdInvalid,
   findAllSalesResult,
+  findSaleByIdResult,
   emptyList,
 } = require('./mocks/sale.service.mocks');
 
@@ -75,6 +76,29 @@ describe('Testes de unidade de "saleService"', function () {
 
       expect(sales.type).to.deep.equal('EMPTY_LIST');
       expect(sales.result).to.deep.equal('There is no registered sale');
+    });
+  });
+
+  describe('Função: "findSaleById"', function () {
+    it('Verifica se "findSaleById" tem o retorno esperado em caso de sucesso', async function () {
+      sinon.stub(saleModel, 'selectSaleById').resolves(findSaleByIdResult);
+
+      const id = 1;
+      const sales = await saleService.findSaleById(id);
+
+      expect(sales.type).to.be.equal(null);
+      expect(sales.result).to.be.equal(findSaleByIdResult);
+    });
+  });
+
+  describe('Função: "deleteSale"', function () {
+    it('Verifica se "deleteSale" tem o retorno esperado em caso de sucesso', async function () {
+      sinon.stub(saleModel, 'deleteSale').resolves();
+
+      const id = 1;
+      const sales = await saleService.deleteSale(id);
+
+      expect(sales.type).to.be.equal(null);
     });
   });
 

@@ -5,7 +5,14 @@ const sinonChai = require('sinon-chai');
 const { saleService } = require('../../../src/services');
 const { saleController } = require('../../../src/controllers');
 const errorMapper = require('../../../src/utils/errorMapper');
-const { newSales, createSaleExpected, salesList } = require('./mocks/sale.controller.mock');
+const {
+  newSales,
+  createSaleExpected,
+  salesList,
+  findSaleByIdExpected,
+  saleBodyToUpdate,
+  expectedResultUpdate,
+} = require('./mocks/sale.controller.mock');
 
 chai.use(sinonChai);
 const { expect } = chai;
@@ -84,6 +91,70 @@ describe('Testes de unidade do "saleController"', function () {
 
       expect(res.status).to.have.been.calledWith(200);
       expect(res.json).to.have.been.calledWith(salesList);
+    });
+  });
+
+  describe('GET /sales/:id | Função: "getSale"', function () {
+    it('Verifica as funções internas e seus argumentos de "getSale" em caso se sucesso', async function () {
+      const res = {};
+      const req = {
+        params: { id: 1 },
+      };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon
+        .stub(saleService, 'findSaleById')
+        .resolves({ type: null, result: findSaleByIdExpected });
+
+      await saleController.getSale(req, res);
+
+      expect(saleService.findSaleById).to.have.been.calledWith(req.params.id);
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(findSaleByIdExpected);
+    });
+  });
+
+  describe('DELETE /sales/:id | Função: "deleteSale"', function () {
+    it('Verifica as funções internas e seus argumentos de "deleteSale" em caso se sucesso', async function () {
+      const res = {};
+      const req = {
+        params: { id: 1 },
+      };
+
+      res.status = sinon.stub().returns(res);
+      res.end = sinon.stub().returns();
+      sinon
+        .stub(saleService, 'deleteSale')
+        .resolves({ type: null });
+
+      await saleController.deleteSale(req, res);
+
+      expect(saleService.deleteSale).to.have.been.calledWith(req.params.id);
+      expect(res.status).to.have.been.calledWith(204);
+      expect(res.end).to.have.been.calledOnce;
+    });
+  });
+
+  describe('PUT /sales/:id | Função: "updateSale"', function () {
+    it('Verifica as funções internas e seus argumentos de "updateSale" em caso se sucesso', async function () {
+      const res = {};
+      const req = {
+        body: { saleBodyToUpdate },
+        params: { id: 1 },
+      };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon
+        .stub(saleService, 'updateSale')
+        .resolves({ type: null, result: expectedResultUpdate });
+
+      await saleController.updateSale(req, res);
+
+      expect(saleService.updateSale).to.have.been.calledWith(req.params.id, req.body);
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(expectedResultUpdate);
     });
   });
 

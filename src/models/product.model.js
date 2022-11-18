@@ -25,11 +25,10 @@ const insert = async (product) => {
 };
 
 const updateProduct = async (id, name) => {
-  const [result] = await connection.execute(`
-    UPDATE StoreManager.products
-    SET name = ?
-    WHERE id = ?
-  `, [name, id]);
+  const [result] = await connection.execute(
+    'UPDATE StoreManager.products SET name= ? WHERE id= ?',
+    [name, id],
+  );
 
   return result;
 };
@@ -43,10 +42,20 @@ const deleteProduct = async (id) => {
   return result;
 };
 
+const searchProduct = async (searchTerm) => {
+  const [result] = await connection.execute(
+    'SELECT * FROM StoreManager.products WHERE name LIKE ?',
+    [`%${searchTerm}%`],
+  );
+
+  return result;
+};
+
 module.exports = {
   selectAll,
   selectById,
   insert,
   updateProduct,
   deleteProduct,
+  searchProduct,
 };

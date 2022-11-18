@@ -159,5 +159,74 @@ describe('Testes de unidade do "productController"', function () {
     });
   });
 
+  describe('PUT /products | "updateProduct"', function () {
+    it('Verifica as funções internas e seus argumentos de "updateProduct" em caso de sucesso', async function () {
+      const res = {};
+      const req = {
+        body: {
+          name: 'Martelo do Batman',
+        },
+        params: { id: 1 },
+      };
+      const newProductExpected = { id: 1, name: 'Martelo do Batman' };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon
+        .stub(productService, 'updateProduct')
+        .resolves({ type: null, result: newProductExpected });
+
+      await productController.updateProduct(req, res);
+
+      expect(productService.updateProduct).to.have.been.calledWith(req.params.id, req.body.name);
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(newProductExpected);
+    });
+  });
+
+  describe('DELETE /products | "deleteProduct"', function () {
+    it('Verifica as funções internas e seus argumentos de "deleteProduct" em caso de sucesso', async function () {
+      const res = {};
+      const req = {
+        params: { id: 1 },
+      };
+
+      res.status = sinon.stub().returns(res);
+      res.end = sinon.stub().returns();
+      sinon
+        .stub(productService, 'deleteProduct')
+        .resolves({ type: null });
+
+      await productController.deleteProduct(req, res);
+
+      expect(productService.deleteProduct).to.have.been.calledWith(req.params.id);
+      expect(res.status).to.have.been.calledWith(204);
+      expect(res.end).to.have.been.calledOnce;
+    });
+  });
+
+  describe('GET /products/search | "searchProduct"', function () {
+    it('Verifica as funções internas e seus argumentos de "searchProduct" em caso de sucesso', async function () {
+      const res = {};
+      const req = {
+        query: { q: 'Martelo' },
+      };
+
+      const expectedResult = [{ id: 1, name: 'Martelo do Thor' }];
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon
+        .stub(productService, 'searchProduct')
+        .resolves({ type: null, result: expectedResult });
+
+      await productController.searchProduct(req, res);
+
+      expect(productService.searchProduct).to.have.been.calledWith(req.query.q);
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(expectedResult);
+    });
+  });
+
   afterEach(sinon.restore);
 });

@@ -56,5 +56,29 @@ describe('Testes de unidade do "productModel"', function () {
     });
   });
 
+  describe('Função: "updateProduct"', function () {
+    it('Verifica se "changedRows" é igual a 1', async function () {
+      sinon.stub(connection, 'execute').resolves([{ changedRows: 1 }]);
+
+      const result = await productModel.updateProduct(2, 'Martelo do Batman');
+
+      expect(result.changedRows).to.have.equal(1);
+    });
+
+    it('Verifica se "connection.execute" recebe a "querySQL" e o "value" esperados', async function () {
+      sinon.stub(connection, 'execute').resolves([]);
+
+      await productModel.updateProduct(2, 'Martelo do Batman');
+
+      const expectedQuery = 'UPDATE StoreManager.products SET name= ? WHERE id= ?';
+      const exepctedValue = ['Martelo do Batman', 2];
+
+      expect(connection.execute).to.have.been.calledWith(
+        expectedQuery,
+        exepctedValue
+      );
+    });
+  });
+
   afterEach(sinon.restore);
 });

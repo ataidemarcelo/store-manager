@@ -83,6 +83,19 @@ const findAllSalesResult = [
   }
 ];
 
+const findSaleByIdResult = [
+  {
+    date: "2022-11-18T11:40:26.000Z",
+    productId: 1,
+    quantity: 10
+  },
+  {
+    date: "2022-11-18T11:40:26.000Z",
+    productId: 2,
+    quantity: 50
+  }
+]
+
 const emptyList = [];
 
 module.exports = {
@@ -93,5 +106,6 @@ module.exports = {
   newSalesQuantityInvalid,
   newSalesProductIdInvalid,
   findAllSalesResult,
+  findSaleByIdResult,
   emptyList,
 };
