@@ -102,5 +102,27 @@ describe('Testes de unidade de "saleService"', function () {
     });
   });
 
+  describe('Função: "updateSale"', function () {
+    it('Verifica se "updateSale" tem o retorno esperado em caso de sucesso', async function () {
+      sinon.stub(saleModel, 'updateSale').resolves();
+
+      const salesBody = [
+        {
+          "productId": 1,
+          "quantity": 10
+        },
+        {
+          "productId": 2,
+          "quantity": 50
+        }
+      ];
+
+      const id = 1;
+      const sales = await saleService.updateSale(id, salesBody);
+
+      expect(sales.type).to.be.equal(null);
+    });
+  });
+
   afterEach(sinon.restore);
 });
