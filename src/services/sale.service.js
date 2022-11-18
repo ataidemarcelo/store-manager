@@ -3,7 +3,7 @@ const { validateFields, validateProductExists } = require('./validations/validat
 const { validateId } = require('./validations/validationsProducts');
 
 const addSale = async (sales) => {
-  let error = await validateFields(sales);
+  let error = validateFields(sales);
   if (error.type) return error;
 
   error = await validateProductExists(sales);
@@ -22,9 +22,8 @@ const addSale = async (sales) => {
 
   const newSales = {
     id: saleId,
-    itemsSold: newSaleProducts,
+    itemsSold: [...newSaleProducts],
   };
-
   return { type: null, result: newSales };
 };
 
